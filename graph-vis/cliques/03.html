@@ -1,0 +1,163 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 1500px;
+                 height: 1500px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"*": false, "cid": 0, "color": "#0000ff77", "country": "", "dataset": "MC1", "id": "#0105", "label": "[OR] 69150209", "ntid": 5, "shape": "dot", "size": 4, "type": "organization", "uid": "#0105", "weight": 18.76547309}, {"*": false, "cid": 0, "color": "#0000ff77", "country": "", "dataset": "MC1", "id": "#2328", "label": "[LO] c01c6a10-60c9-4f11-9409-aa04c3963826", "ntid": 3, "shape": "dot", "size": 7, "type": "location", "uid": "#2328", "weight": 58.755121470000006}, {"*": false, "cid": 0, "color": "#0000ff77", "country": "", "dataset": "MC1", "id": "#2329", "label": "[PO] 156", "ntid": 7, "shape": "dot", "size": 4, "type": "political_organization", "uid": "#2329", "weight": 19.07101714}, {"*": false, "cid": 0, "color": "#0000ff77", "country": "", "dataset": "MC1", "id": "#2330", "label": "[LO] 1eb512b7-c4ce-4b7e-9965-2236bf1afc9e", "ntid": 3, "shape": "dot", "size": 3, "type": "location", "uid": "#2330", "weight": 12.69566944}, {"*": false, "cid": 0, "color": "#0000ff77", "country": "", "dataset": "MC1", "id": "#0209", "label": "[PO] 57", "ntid": 7, "shape": "dot", "size": 5, "type": "political_organization", "uid": "#0209", "weight": 35.507513610000004}, {"*": false, "cid": 108, "color": "#0000ff77", "country": "Riodelsol", "dataset": "MC1", "id": "#2325", "label": "[PE] Luis Jones (Riodelsol)", "ntid": 6, "shape": "dot", "size": 3, "type": "person", "uid": "#2325", "weight": 14.177743809999999}, {"*": false, "cid": 0, "color": "#0000ff77", "country": "", "dataset": "MC1", "id": "#0952", "label": "[LO] f2aee915-d483-4823-a030-9aac5e44c1fe", "ntid": 3, "shape": "dot", "size": 5, "type": "location", "uid": "#0952", "weight": 27.520544159999996}, {"*": false, "cid": 0, "color": "#0000ff77", "country": "", "dataset": "MC1", "id": "#2326", "label": "[PO] 17232", "ntid": 7, "shape": "dot", "size": 3, "type": "political_organization", "uid": "#2326", "weight": 12.237733409999999}, {"*": false, "cid": 97, "color": "#0000ff77", "country": "Nalakond", "dataset": "MC1", "id": "#0110", "label": "[PE] Derek Burke (Nalakond)", "ntid": 6, "shape": "dot", "size": 6, "type": "person", "uid": "#0110", "weight": 39.22338954}, {"*": false, "cid": 0, "color": "#0000ff77", "country": "", "dataset": "MC1", "id": "#0976", "label": "[OR] 119411", "ntid": 5, "shape": "dot", "size": 3, "type": "organization", "uid": "#0976", "weight": 13.62195926}, {"*": true, "cid": 0, "color": "red", "country": "", "dataset": "MC1", "id": "#0901", "label": "[OR] 979893388", "ntid": 5, "shape": "dot", "size": 13, "type": "organization", "uid": "#0901", "weight": 176.48790785}, {"*": false, "cid": 0, "color": "#0000ff77", "country": "", "dataset": "MC1", "id": "#0171", "label": "[OR] 665", "ntid": 5, "shape": "dot", "size": 5, "type": "organization", "uid": "#0171", "weight": 35.58929237}, {"*": false, "cid": 0, "color": "#0000ff77", "country": "", "dataset": "MC1", "id": "#2327", "label": "[OR] 6070651", "ntid": 5, "shape": "dot", "size": 3, "type": "organization", "uid": "#2327", "weight": 11.953169809999999}, {"*": false, "cid": 0, "color": "#0000ff77", "country": "", "dataset": "MC1", "id": "#1978", "label": "[OR] 542341", "ntid": 5, "shape": "dot", "size": 3, "type": "organization", "uid": "#1978", "weight": 12.439612120000001}]);
+                  edges = new vis.DataSet([{"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0105", "key": 0, "srcid": "#0105", "tgtid": "#2328", "title": "[69150209] partnership [c01c6a10-60c9-4f11-9409-aa04c3963826]", "to": "#2328", "type": "partnership", "width": 0.909481}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0105", "key": 0, "srcid": "#0105", "tgtid": "#2329", "title": "[69150209] partnership [156]", "to": "#2329", "type": "partnership", "width": 0.8844671}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0105", "key": 0, "srcid": "#0105", "tgtid": "#2330", "title": "[69150209] partnership [1eb512b7-c4ce-4b7e-9965-2236bf1afc9e]", "to": "#2330", "type": "partnership", "width": 0.88598055}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0105", "key": 0, "srcid": "#0105", "tgtid": "#0209", "title": "[69150209] partnership [57]", "to": "#0209", "type": "partnership", "width": 0.96227}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0105", "key": 0, "srcid": "#0105", "tgtid": "#2325", "title": "[69150209] partnership [Luis Jones]", "to": "#2325", "type": "partnership", "width": 0.97509354}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0105", "key": 0, "srcid": "#0105", "tgtid": "#0952", "title": "[69150209] partnership [f2aee915-d483-4823-a030-9aac5e44c1fe]", "to": "#0952", "type": "partnership", "width": 0.8617818}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0105", "key": 0, "srcid": "#0105", "tgtid": "#2326", "title": "[69150209] partnership [17232]", "to": "#2326", "type": "partnership", "width": 0.9590134}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0105", "key": 0, "srcid": "#0105", "tgtid": "#0110", "title": "[69150209] partnership [Derek Burke]", "to": "#0110", "type": "partnership", "width": 0.924902}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0105", "key": 0, "srcid": "#0105", "tgtid": "#0976", "title": "[69150209] partnership [119411]", "to": "#0976", "type": "partnership", "width": 0.83643967}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0105", "key": 0, "srcid": "#0105", "tgtid": "#0901", "title": "[69150209] partnership [979893388]", "to": "#0901", "type": "partnership", "width": 0.8604943}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0110", "key": 0, "srcid": "#0110", "tgtid": "#0209", "title": "[Derek Burke] partnership [57]", "to": "#0209", "type": "partnership", "width": 0.95630246}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0110", "key": 0, "srcid": "#0110", "tgtid": "#0976", "title": "[Derek Burke] partnership [119411]", "to": "#0976", "type": "partnership", "width": 0.85808897}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0110", "key": 0, "srcid": "#0110", "tgtid": "#2328", "title": "[Derek Burke] partnership [c01c6a10-60c9-4f11-9409-aa04c3963826]", "to": "#2328", "type": "partnership", "width": 0.90532357}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0171", "key": 0, "srcid": "#0171", "tgtid": "#2327", "title": "[665] partnership [6070651]", "to": "#2327", "type": "partnership", "width": 0.89273876}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0171", "key": 0, "srcid": "#0171", "tgtid": "#0105", "title": "[665] partnership [69150209]", "to": "#0105", "type": "partnership", "width": 0.8880386}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0171", "key": 0, "srcid": "#0171", "tgtid": "#2328", "title": "[665] partnership [c01c6a10-60c9-4f11-9409-aa04c3963826]", "to": "#2328", "type": "partnership", "width": 0.9267556}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0171", "key": 0, "srcid": "#0171", "tgtid": "#2329", "title": "[665] partnership [156]", "to": "#2329", "type": "partnership", "width": 0.9048851}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0171", "key": 0, "srcid": "#0171", "tgtid": "#2330", "title": "[665] partnership [1eb512b7-c4ce-4b7e-9965-2236bf1afc9e]", "to": "#2330", "type": "partnership", "width": 0.90387577}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0171", "key": 0, "srcid": "#0171", "tgtid": "#0209", "title": "[665] partnership [57]", "to": "#0209", "type": "partnership", "width": 0.9675706}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0171", "key": 0, "srcid": "#0171", "tgtid": "#2325", "title": "[665] partnership [Luis Jones]", "to": "#2325", "type": "partnership", "width": 0.97755516}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0171", "key": 0, "srcid": "#0171", "tgtid": "#0952", "title": "[665] partnership [f2aee915-d483-4823-a030-9aac5e44c1fe]", "to": "#0952", "type": "partnership", "width": 0.8776504}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0171", "key": 0, "srcid": "#0171", "tgtid": "#2326", "title": "[665] partnership [17232]", "to": "#2326", "type": "partnership", "width": 0.96609247}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0171", "key": 0, "srcid": "#0171", "tgtid": "#0110", "title": "[665] partnership [Derek Burke]", "to": "#0110", "type": "partnership", "width": 0.9366159}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0171", "key": 0, "srcid": "#0171", "tgtid": "#0976", "title": "[665] partnership [119411]", "to": "#0976", "type": "partnership", "width": 0.8640971}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0171", "key": 0, "srcid": "#0171", "tgtid": "#0901", "title": "[665] partnership [979893388]", "to": "#0901", "type": "partnership", "width": 0.8804744}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0209", "key": 0, "srcid": "#0209", "tgtid": "#2325", "title": "[57] partnership [Luis Jones]", "to": "#2325", "type": "partnership", "width": 0.95853525}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0209", "key": 0, "srcid": "#0209", "tgtid": "#2328", "title": "[57] partnership [c01c6a10-60c9-4f11-9409-aa04c3963826]", "to": "#2328", "type": "partnership", "width": 0.90526116}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0209", "key": 0, "srcid": "#0209", "tgtid": "#2326", "title": "[57] partnership [17232]", "to": "#2326", "type": "partnership", "width": 0.9311787}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0209", "key": 0, "srcid": "#0209", "tgtid": "#0110", "title": "[57] partnership [Derek Burke]", "to": "#0110", "type": "partnership", "width": 0.8751962}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0901", "key": 0, "srcid": "#0901", "tgtid": "#0209", "title": "[979893388] partnership [57]", "to": "#0209", "type": "partnership", "width": 0.9378966}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0901", "key": 0, "srcid": "#0901", "tgtid": "#2325", "title": "[979893388] partnership [Luis Jones]", "to": "#2325", "type": "partnership", "width": 0.9591203}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0901", "key": 0, "srcid": "#0901", "tgtid": "#2328", "title": "[979893388] partnership [c01c6a10-60c9-4f11-9409-aa04c3963826]", "to": "#2328", "type": "partnership", "width": 0.9087362}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0901", "key": 0, "srcid": "#0901", "tgtid": "#2326", "title": "[979893388] partnership [17232]", "to": "#2326", "type": "partnership", "width": 0.9355846}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0901", "key": 0, "srcid": "#0901", "tgtid": "#0110", "title": "[979893388] partnership [Derek Burke]", "to": "#0110", "type": "partnership", "width": 0.88688254}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0952", "key": 0, "srcid": "#0952", "tgtid": "#0209", "title": "[f2aee915-d483-4823-a030-9aac5e44c1fe] partnership [57]", "to": "#0209", "type": "partnership", "width": 0.96324116}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0952", "key": 0, "srcid": "#0952", "tgtid": "#2328", "title": "[f2aee915-d483-4823-a030-9aac5e44c1fe] partnership [c01c6a10-60c9-4f11-9409-aa04c3963826]", "to": "#2328", "type": "partnership", "width": 0.95103586}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0952", "key": 0, "srcid": "#0952", "tgtid": "#2326", "title": "[f2aee915-d483-4823-a030-9aac5e44c1fe] partnership [17232]", "to": "#2326", "type": "partnership", "width": 0.96228313}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0952", "key": 0, "srcid": "#0952", "tgtid": "#0110", "title": "[f2aee915-d483-4823-a030-9aac5e44c1fe] partnership [Derek Burke]", "to": "#0110", "type": "partnership", "width": 0.93287605}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0952", "key": 0, "srcid": "#0952", "tgtid": "#0976", "title": "[f2aee915-d483-4823-a030-9aac5e44c1fe] partnership [119411]", "to": "#0976", "type": "partnership", "width": 0.84099805}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0976", "key": 0, "srcid": "#0976", "tgtid": "#2328", "title": "[119411] partnership [c01c6a10-60c9-4f11-9409-aa04c3963826]", "to": "#2328", "type": "partnership", "width": 0.8701169}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0976", "key": 0, "srcid": "#0976", "tgtid": "#0209", "title": "[119411] partnership [57]", "to": "#0209", "type": "partnership", "width": 0.9284514}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1978", "key": 0, "srcid": "#1978", "tgtid": "#0171", "title": "[542341] partnership [665]", "to": "#0171", "type": "partnership", "width": 0.9236404}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1978", "key": 0, "srcid": "#1978", "tgtid": "#2327", "title": "[542341] partnership [6070651]", "to": "#2327", "type": "partnership", "width": 0.8652676}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1978", "key": 0, "srcid": "#1978", "tgtid": "#0105", "title": "[542341] partnership [69150209]", "to": "#0105", "type": "partnership", "width": 0.8487149}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1978", "key": 0, "srcid": "#1978", "tgtid": "#2328", "title": "[542341] partnership [c01c6a10-60c9-4f11-9409-aa04c3963826]", "to": "#2328", "type": "partnership", "width": 0.90360296}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1978", "key": 0, "srcid": "#1978", "tgtid": "#2329", "title": "[542341] partnership [156]", "to": "#2329", "type": "partnership", "width": 0.8823038}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1978", "key": 0, "srcid": "#1978", "tgtid": "#2330", "title": "[542341] partnership [1eb512b7-c4ce-4b7e-9965-2236bf1afc9e]", "to": "#2330", "type": "partnership", "width": 0.8739193}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1978", "key": 0, "srcid": "#1978", "tgtid": "#0209", "title": "[542341] partnership [57]", "to": "#0209", "type": "partnership", "width": 0.95912325}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1978", "key": 0, "srcid": "#1978", "tgtid": "#2325", "title": "[542341] partnership [Luis Jones]", "to": "#2325", "type": "partnership", "width": 0.97097856}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1978", "key": 0, "srcid": "#1978", "tgtid": "#0952", "title": "[542341] partnership [f2aee915-d483-4823-a030-9aac5e44c1fe]", "to": "#0952", "type": "partnership", "width": 0.8503447}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1978", "key": 0, "srcid": "#1978", "tgtid": "#2326", "title": "[542341] partnership [17232]", "to": "#2326", "type": "partnership", "width": 0.9561756}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1978", "key": 0, "srcid": "#1978", "tgtid": "#0110", "title": "[542341] partnership [Derek Burke]", "to": "#0110", "type": "partnership", "width": 0.9190249}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1978", "key": 0, "srcid": "#1978", "tgtid": "#0976", "title": "[542341] partnership [119411]", "to": "#0976", "type": "partnership", "width": 0.8203323}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1978", "key": 0, "srcid": "#1978", "tgtid": "#0901", "title": "[542341] partnership [979893388]", "to": "#0901", "type": "partnership", "width": 0.8511472}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#2325", "key": 0, "srcid": "#2325", "tgtid": "#0952", "title": "[Luis Jones] partnership [f2aee915-d483-4823-a030-9aac5e44c1fe]", "to": "#0952", "type": "partnership", "width": 0.8409762}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#2325", "key": 0, "srcid": "#2325", "tgtid": "#0209", "title": "[Luis Jones] partnership [57]", "to": "#0209", "type": "partnership", "width": 0.94910926}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#2325", "key": 0, "srcid": "#2325", "tgtid": "#2328", "title": "[Luis Jones] partnership [c01c6a10-60c9-4f11-9409-aa04c3963826]", "to": "#2328", "type": "partnership", "width": 0.9316988}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#2325", "key": 0, "srcid": "#2325", "tgtid": "#2326", "title": "[Luis Jones] partnership [17232]", "to": "#2326", "type": "partnership", "width": 0.95337355}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2325", "key": 0, "srcid": "#2325", "tgtid": "#0110", "title": "[Luis Jones] family_relationship [Derek Burke]", "to": "#0110", "type": "family_relationship", "width": 0.9206601}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#2325", "key": 0, "srcid": "#2325", "tgtid": "#0976", "title": "[Luis Jones] partnership [119411]", "to": "#0976", "type": "partnership", "width": 0.8183318}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#2326", "key": 0, "srcid": "#2326", "tgtid": "#0110", "title": "[17232] partnership [Derek Burke]", "to": "#0110", "type": "partnership", "width": 0.8165173}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#2326", "key": 0, "srcid": "#2326", "tgtid": "#0209", "title": "[17232] partnership [57]", "to": "#0209", "type": "partnership", "width": 0.8913128}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#2327", "key": 0, "srcid": "#2327", "tgtid": "#0105", "title": "[6070651] partnership [69150209]", "to": "#0105", "type": "partnership", "width": 0.8978029}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#2327", "key": 0, "srcid": "#2327", "tgtid": "#2328", "title": "[6070651] partnership [c01c6a10-60c9-4f11-9409-aa04c3963826]", "to": "#2328", "type": "partnership", "width": 0.9322106}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#2327", "key": 0, "srcid": "#2327", "tgtid": "#2329", "title": "[6070651] partnership [156]", "to": "#2329", "type": "partnership", "width": 0.91482264}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#2327", "key": 0, "srcid": "#2327", "tgtid": "#2330", "title": "[6070651] partnership [1eb512b7-c4ce-4b7e-9965-2236bf1afc9e]", "to": "#2330", "type": "partnership", "width": 0.91026115}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#2327", "key": 0, "srcid": "#2327", "tgtid": "#0209", "title": "[6070651] partnership [57]", "to": "#0209", "type": "partnership", "width": 0.97147906}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#2327", "key": 0, "srcid": "#2327", "tgtid": "#2325", "title": "[6070651] partnership [Luis Jones]", "to": "#2325", "type": "partnership", "width": 0.9827055}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#2327", "key": 0, "srcid": "#2327", "tgtid": "#0952", "title": "[6070651] partnership [f2aee915-d483-4823-a030-9aac5e44c1fe]", "to": "#0952", "type": "partnership", "width": 0.89708734}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#2327", "key": 0, "srcid": "#2327", "tgtid": "#2326", "title": "[6070651] partnership [17232]", "to": "#2326", "type": "partnership", "width": 0.97057986}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#2327", "key": 0, "srcid": "#2327", "tgtid": "#0110", "title": "[6070651] partnership [Derek Burke]", "to": "#0110", "type": "partnership", "width": 0.9444851}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#2327", "key": 0, "srcid": "#2327", "tgtid": "#0976", "title": "[6070651] partnership [119411]", "to": "#0976", "type": "partnership", "width": 0.8767988}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#2327", "key": 0, "srcid": "#2327", "tgtid": "#0901", "title": "[6070651] partnership [979893388]", "to": "#0901", "type": "partnership", "width": 0.8969305}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#2328", "key": 0, "srcid": "#2328", "tgtid": "#2329", "title": "[c01c6a10-60c9-4f11-9409-aa04c3963826] partnership [156]", "to": "#2329", "type": "partnership", "width": 0.9169572}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#2328", "key": 0, "srcid": "#2328", "tgtid": "#2330", "title": "[c01c6a10-60c9-4f11-9409-aa04c3963826] partnership [1eb512b7-c4ce-4b7e-9965-2236bf1afc9e]", "to": "#2330", "type": "partnership", "width": 0.91951555}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#2328", "key": 0, "srcid": "#2328", "tgtid": "#0209", "title": "[c01c6a10-60c9-4f11-9409-aa04c3963826] partnership [57]", "to": "#0209", "type": "partnership", "width": 0.97308344}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#2328", "key": 0, "srcid": "#2328", "tgtid": "#2325", "title": "[c01c6a10-60c9-4f11-9409-aa04c3963826] partnership [Luis Jones]", "to": "#2325", "type": "partnership", "width": 0.98341274}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#2328", "key": 0, "srcid": "#2328", "tgtid": "#0952", "title": "[c01c6a10-60c9-4f11-9409-aa04c3963826] partnership [f2aee915-d483-4823-a030-9aac5e44c1fe]", "to": "#0952", "type": "partnership", "width": 0.89754057}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#2328", "key": 0, "srcid": "#2328", "tgtid": "#2326", "title": "[c01c6a10-60c9-4f11-9409-aa04c3963826] partnership [17232]", "to": "#2326", "type": "partnership", "width": 0.9718464}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#2328", "key": 0, "srcid": "#2328", "tgtid": "#0110", "title": "[c01c6a10-60c9-4f11-9409-aa04c3963826] partnership [Derek Burke]", "to": "#0110", "type": "partnership", "width": 0.94553363}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#2328", "key": 0, "srcid": "#2328", "tgtid": "#0976", "title": "[c01c6a10-60c9-4f11-9409-aa04c3963826] partnership [119411]", "to": "#0976", "type": "partnership", "width": 0.8804507}, {"arrows": "to", "color": "#d6272877", "dataset": "MC1", "etid": 3, "from": "#2328", "key": 0, "srcid": "#2328", "tgtid": "#0105", "title": "[c01c6a10-60c9-4f11-9409-aa04c3963826] ownership [69150209]", "to": "#0105", "type": "ownership", "width": 0.81177276}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#2328", "key": 0, "srcid": "#2328", "tgtid": "#0901", "title": "[c01c6a10-60c9-4f11-9409-aa04c3963826] partnership [979893388]", "to": "#0901", "type": "partnership", "width": 0.90000683}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#2329", "key": 0, "srcid": "#2329", "tgtid": "#2330", "title": "[156] partnership [1eb512b7-c4ce-4b7e-9965-2236bf1afc9e]", "to": "#2330", "type": "partnership", "width": 0.89846027}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#2329", "key": 0, "srcid": "#2329", "tgtid": "#2328", "title": "[156] partnership [c01c6a10-60c9-4f11-9409-aa04c3963826]", "to": "#2328", "type": "partnership", "width": 0.92557365}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#2329", "key": 0, "srcid": "#2329", "tgtid": "#0209", "title": "[156] partnership [57]", "to": "#0209", "type": "partnership", "width": 0.9667742}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#2329", "key": 0, "srcid": "#2329", "tgtid": "#2325", "title": "[156] partnership [Luis Jones]", "to": "#2325", "type": "partnership", "width": 0.9797711}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#2329", "key": 0, "srcid": "#2329", "tgtid": "#0952", "title": "[156] partnership [f2aee915-d483-4823-a030-9aac5e44c1fe]", "to": "#0952", "type": "partnership", "width": 0.8845593}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#2329", "key": 0, "srcid": "#2329", "tgtid": "#2326", "title": "[156] partnership [17232]", "to": "#2326", "type": "partnership", "width": 0.9672668}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#2329", "key": 0, "srcid": "#2329", "tgtid": "#0110", "title": "[156] partnership [Derek Burke]", "to": "#0110", "type": "partnership", "width": 0.93980837}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#2329", "key": 0, "srcid": "#2329", "tgtid": "#0976", "title": "[156] partnership [119411]", "to": "#0976", "type": "partnership", "width": 0.8642386}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#2329", "key": 0, "srcid": "#2329", "tgtid": "#0901", "title": "[156] partnership [979893388]", "to": "#0901", "type": "partnership", "width": 0.8817072}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#2330", "key": 0, "srcid": "#2330", "tgtid": "#2328", "title": "[1eb512b7-c4ce-4b7e-9965-2236bf1afc9e] partnership [c01c6a10-60c9-4f11-9409-aa04c3963826]", "to": "#2328", "type": "partnership", "width": 0.91144896}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#2330", "key": 0, "srcid": "#2330", "tgtid": "#0209", "title": "[1eb512b7-c4ce-4b7e-9965-2236bf1afc9e] partnership [57]", "to": "#0209", "type": "partnership", "width": 0.9632099}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#2330", "key": 0, "srcid": "#2330", "tgtid": "#2325", "title": "[1eb512b7-c4ce-4b7e-9965-2236bf1afc9e] partnership [Luis Jones]", "to": "#2325", "type": "partnership", "width": 0.97642195}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#2330", "key": 0, "srcid": "#2330", "tgtid": "#0952", "title": "[1eb512b7-c4ce-4b7e-9965-2236bf1afc9e] partnership [f2aee915-d483-4823-a030-9aac5e44c1fe]", "to": "#0952", "type": "partnership", "width": 0.86135024}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#2330", "key": 0, "srcid": "#2330", "tgtid": "#2326", "title": "[1eb512b7-c4ce-4b7e-9965-2236bf1afc9e] partnership [17232]", "to": "#2326", "type": "partnership", "width": 0.9565088}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#2330", "key": 0, "srcid": "#2330", "tgtid": "#0110", "title": "[1eb512b7-c4ce-4b7e-9965-2236bf1afc9e] partnership [Derek Burke]", "to": "#0110", "type": "partnership", "width": 0.92677015}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#2330", "key": 0, "srcid": "#2330", "tgtid": "#0976", "title": "[1eb512b7-c4ce-4b7e-9965-2236bf1afc9e] partnership [119411]", "to": "#0976", "type": "partnership", "width": 0.83951545}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#2330", "key": 0, "srcid": "#2330", "tgtid": "#0901", "title": "[1eb512b7-c4ce-4b7e-9965-2236bf1afc9e] partnership [979893388]", "to": "#0901", "type": "partnership", "width": 0.8684314}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "repulsion": {
+            "centralGravity": 0.2,
+            "damping": 0.09,
+            "nodeDistance": 100,
+            "springConstant": 0.05,
+            "springLength": 200
+        },
+        "solver": "repulsion",
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

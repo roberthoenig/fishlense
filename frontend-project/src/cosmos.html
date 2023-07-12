@@ -1,0 +1,71 @@
+<html>
+  <head>
+    <title>Cosmos: Node Labels Example</title>
+    <meta charset="UTF-8" />
+  </head>
+
+  <body>
+    <div class="app">
+      <div id="labels"></div>
+      <canvas id="graph"></canvas>
+      <canvas id="overlay"></canvas>
+    </div>
+    <div class="actions">
+      <div class="action">
+        <button id="filter_button">Filter</button>
+        <select name="src" id="filter_src">
+          <option value="">any source node</option>
+          <option value=":M1">interested</option>
+<!--          <option value=":M2">interested 2</option>-->
+          <option value=":N1">company</option>
+          <option value=":N2">event</option>
+          <option value=":N3">location</option>
+          <option value=":N4">movement</option>
+          <option value=":N5">organization</option>
+          <option value=":N6">person</option>
+          <option value=":N7">political_organization</option>
+        </select>
+        <select name="edge" id="filter_edge">
+          <option value="">any edge</option>
+          <option value=":E1">family_relationship</option>
+          <option value=":E2">membership</option>
+          <option value=":E3">ownership</option>
+          <option value=":E4">partnership</option>
+        </select>
+        <select name="tgt" id="filter_tgt">
+          <option value="">any target node</option>
+          <option value=":M1">interested</option>
+<!--          <option value=":M2">interested 2</option>-->
+          <option value=":N1">company</option>
+          <option value=":N2">event</option>
+          <option value=":N3">location</option>
+          <option value=":N4">movement</option>
+          <option value=":N5">organization</option>
+          <option value=":N6">person</option>
+          <option value=":N7">political_organization</option>
+        </select>
+      </div>
+      <div class="action">
+        <button id="sync0">Detailed View &lt;&lt;</button>
+        <label class="switch">
+          <input id="select" type="checkbox">
+          <span class="slider round"></span>
+        </label>
+        Selection Mode
+        <label class="switch">
+          <input id="pause" type="checkbox">
+          <span class="slider round"></span>
+        </label>
+        Animation
+      </div>
+      <div class="action" id="wait" style="visibility: hidden; color: red">Wait!</div>
+      <div class="action" id="edit" style="visibility: hidden;">Addition Mode (Click to Toggle to Removal Mode)</div>
+      <div class="action" style="visibility: hidden;"><textarea id="freeform" name="freeform" rows="4" cols="50">MATCH (n) OPTIONAL MATCH (n)-[r]-() RETURN n, r;</textarea></div>
+      <div class="action" id="submit_query" style="visibility: hidden;">Submit</div>
+    </div>
+    <script type="module" src="cosmos/graph.ts"></script>
+    <script type="module" src="cosmos/selection.ts"></script>
+    <script type="module" src="cosmos/ui.ts"></script>
+    <script type="module" src="cosmos/scripts.js"></script>
+  </body>
+</html>

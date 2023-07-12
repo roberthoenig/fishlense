@@ -1,0 +1,72 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.react-resizable-handle {
+  background-color: #e7e7e7;
+}
+
+.App-link {
+  color: #f0f0f0;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+body {
+  margin: 10px;
+  height: 100%;
+}
+
+main {
+  display: grid;
+  padding: 3px;
+  grid-gap: 3px;
+  
+  grid-template: 
+  "nav head" min-content
+  "nav main" 1fr
+      / min-content 1fr;
+}
+
+
+
+header {
+  grid-area: head;
+}
+
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

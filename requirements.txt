@@ -1,0 +1,7 @@
+networkx
+python-louvain
+pyvis
+matplotlib
+scikit-learn
+numpy
+termcolor

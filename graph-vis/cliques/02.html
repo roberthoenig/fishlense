@@ -1,0 +1,163 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 1500px;
+                 height: 1500px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"*": false, "cid": 65, "color": "#0000ff77", "country": "Country_789455", "dataset": "MC1", "id": "#2099", "label": "[PE] Harold Strickland (Country_789455)", "ntid": 6, "shape": "dot", "size": 4, "type": "person", "uid": "#2099", "weight": 23.03110777}, {"*": false, "cid": 65, "color": "#0000ff77", "country": "Country_789455", "dataset": "MC1", "id": "#2100", "label": "[PE] John Hall (Country_789455)", "ntid": 6, "shape": "dot", "size": 4, "type": "person", "uid": "#2100", "weight": 21.96758943}, {"*": false, "cid": 65, "color": "#0000ff77", "country": "Country_789455", "dataset": "MC1", "id": "#2103", "label": "[PE] Sandra Bullock (Country_789455)", "ntid": 6, "shape": "dot", "size": 5, "type": "person", "uid": "#2103", "weight": 27.388808060000002}, {"*": false, "cid": 65, "color": "#0000ff77", "country": "Country_789455", "dataset": "MC1", "id": "#2106", "label": "[PE] Mark Garcia (Country_789455)", "ntid": 6, "shape": "dot", "size": 5, "type": "person", "uid": "#2106", "weight": 25.030358640000003}, {"*": false, "cid": 24, "color": "#0000ff77", "country": "Country_271835", "dataset": "MC1", "id": "#2126", "label": "[PE] Victoria Gonzalez (Country_271835)", "ntid": 6, "shape": "dot", "size": 3, "type": "person", "uid": "#2126", "weight": 11.02908485}, {"*": false, "cid": 24, "color": "#0000ff77", "country": "Country_271835", "dataset": "MC1", "id": "#2127", "label": "[PE] Jennifer Johnson (Country_271835)", "ntid": 6, "shape": "dot", "size": 3, "type": "person", "uid": "#2127", "weight": 12.022417310000002}, {"*": false, "cid": 24, "color": "#0000ff77", "country": "Country_271835", "dataset": "MC1", "id": "#2128", "label": "[PE] Jeffrey Mills (Country_271835)", "ntid": 6, "shape": "dot", "size": 3, "type": "person", "uid": "#2128", "weight": 11.07094905}, {"*": false, "cid": 24, "color": "#0000ff77", "country": "Country_271835", "dataset": "MC1", "id": "#2129", "label": "[PE] Jason Brown (Country_271835)", "ntid": 6, "shape": "dot", "size": 3, "type": "person", "uid": "#2129", "weight": 11.01602469}, {"*": false, "cid": 24, "color": "#0000ff77", "country": "Country_271835", "dataset": "MC1", "id": "#2130", "label": "[PE] Jeff Sullivan (Country_271835)", "ntid": 6, "shape": "dot", "size": 3, "type": "person", "uid": "#2130", "weight": 9.55360476}, {"*": false, "cid": 86, "color": "#0000ff77", "country": "Country_990614", "dataset": "MC1", "id": "#2110", "label": "[PE] Samuel Dunn (Country_990614)", "ntid": 6, "shape": "dot", "size": 5, "type": "person", "uid": "#2110", "weight": 30.604461540000003}, {"*": false, "cid": 0, "color": "#0000ff77", "country": "", "dataset": "MC1", "id": "#2131", "label": "[PO] 6828", "ntid": 7, "shape": "dot", "size": 2, "type": "political_organization", "uid": "#2131", "weight": 7.840499299999999}, {"*": false, "cid": 24, "color": "#0000ff77", "country": "Country_271835", "dataset": "MC1", "id": "#2132", "label": "[PE] Mr. Eric Logan (Country_271835)", "ntid": 6, "shape": "dot", "size": 3, "type": "person", "uid": "#2132", "weight": 14.138605}, {"*": false, "cid": 24, "color": "#0000ff77", "country": "Country_271835", "dataset": "MC1", "id": "#2133", "label": "[PE] William Phillips (Country_271835)", "ntid": 6, "shape": "dot", "size": 3, "type": "person", "uid": "#2133", "weight": 12.28998489}, {"*": false, "cid": 24, "color": "#0000ff77", "country": "Country_271835", "dataset": "MC1", "id": "#2134", "label": "[PE] Heather Holmes (Country_271835)", "ntid": 6, "shape": "dot", "size": 3, "type": "person", "uid": "#2134", "weight": 12.44715484}]);
+                  edges = new vis.DataSet([{"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2099", "key": 0, "srcid": "#2099", "tgtid": "#2100", "title": "[Harold Strickland] family_relationship [John Hall]", "to": "#2100", "type": "family_relationship", "width": 0.9249264}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2099", "key": 0, "srcid": "#2099", "tgtid": "#2103", "title": "[Harold Strickland] family_relationship [Sandra Bullock]", "to": "#2103", "type": "family_relationship", "width": 0.95069355}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2099", "key": 0, "srcid": "#2099", "tgtid": "#2106", "title": "[Harold Strickland] family_relationship [Mark Garcia]", "to": "#2106", "type": "family_relationship", "width": 0.9055872}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2099", "key": 0, "srcid": "#2099", "tgtid": "#2126", "title": "[Harold Strickland] family_relationship [Victoria Gonzalez]", "to": "#2126", "type": "family_relationship", "width": 0.9124926}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2099", "key": 0, "srcid": "#2099", "tgtid": "#2127", "title": "[Harold Strickland] family_relationship [Jennifer Johnson]", "to": "#2127", "type": "family_relationship", "width": 0.929093}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2099", "key": 0, "srcid": "#2099", "tgtid": "#2128", "title": "[Harold Strickland] family_relationship [Jeffrey Mills]", "to": "#2128", "type": "family_relationship", "width": 0.9491523}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2099", "key": 0, "srcid": "#2099", "tgtid": "#2129", "title": "[Harold Strickland] family_relationship [Jason Brown]", "to": "#2129", "type": "family_relationship", "width": 0.93120575}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2099", "key": 0, "srcid": "#2099", "tgtid": "#2130", "title": "[Harold Strickland] family_relationship [Jeff Sullivan]", "to": "#2130", "type": "family_relationship", "width": 0.97507405}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2099", "key": 0, "srcid": "#2099", "tgtid": "#2110", "title": "[Harold Strickland] family_relationship [Samuel Dunn]", "to": "#2110", "type": "family_relationship", "width": 0.89831287}, {"arrows": "to", "color": "#2ca02c77", "dataset": "MC1", "etid": 2, "from": "#2099", "key": 0, "srcid": "#2099", "tgtid": "#2131", "title": "[Harold Strickland] membership [6828]", "to": "#2131", "type": "membership", "width": 0.8467922}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2099", "key": 0, "srcid": "#2099", "tgtid": "#2132", "title": "[Harold Strickland] family_relationship [Mr. Eric Logan]", "to": "#2132", "type": "family_relationship", "width": 0.9589306}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2099", "key": 0, "srcid": "#2099", "tgtid": "#2133", "title": "[Harold Strickland] family_relationship [William Phillips]", "to": "#2133", "type": "family_relationship", "width": 0.9603517}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2099", "key": 0, "srcid": "#2099", "tgtid": "#2134", "title": "[Harold Strickland] family_relationship [Heather Holmes]", "to": "#2134", "type": "family_relationship", "width": 0.9697194}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2100", "key": 0, "srcid": "#2100", "tgtid": "#2103", "title": "[John Hall] family_relationship [Sandra Bullock]", "to": "#2103", "type": "family_relationship", "width": 0.94022524}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2100", "key": 0, "srcid": "#2100", "tgtid": "#2106", "title": "[John Hall] family_relationship [Mark Garcia]", "to": "#2106", "type": "family_relationship", "width": 0.88162756}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2100", "key": 0, "srcid": "#2100", "tgtid": "#2130", "title": "[John Hall] family_relationship [Jeff Sullivan]", "to": "#2130", "type": "family_relationship", "width": 0.9721328}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2100", "key": 0, "srcid": "#2100", "tgtid": "#2110", "title": "[John Hall] family_relationship [Samuel Dunn]", "to": "#2110", "type": "family_relationship", "width": 0.8732429}, {"arrows": "to", "color": "#2ca02c77", "dataset": "MC1", "etid": 2, "from": "#2100", "key": 0, "srcid": "#2100", "tgtid": "#2131", "title": "[John Hall] membership [6828]", "to": "#2131", "type": "membership", "width": 0.8247798}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2100", "key": 0, "srcid": "#2100", "tgtid": "#2132", "title": "[John Hall] family_relationship [Mr. Eric Logan]", "to": "#2132", "type": "family_relationship", "width": 0.9496128}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2100", "key": 0, "srcid": "#2100", "tgtid": "#2133", "title": "[John Hall] family_relationship [William Phillips]", "to": "#2133", "type": "family_relationship", "width": 0.9529076}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2100", "key": 0, "srcid": "#2100", "tgtid": "#2134", "title": "[John Hall] family_relationship [Heather Holmes]", "to": "#2134", "type": "family_relationship", "width": 0.9631282}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2103", "key": 0, "srcid": "#2103", "tgtid": "#2106", "title": "[Sandra Bullock] family_relationship [Mark Garcia]", "to": "#2106", "type": "family_relationship", "width": 0.8788858}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2103", "key": 0, "srcid": "#2103", "tgtid": "#2110", "title": "[Sandra Bullock] family_relationship [Samuel Dunn]", "to": "#2110", "type": "family_relationship", "width": 0.87806094}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2103", "key": 0, "srcid": "#2103", "tgtid": "#2099", "title": "[Sandra Bullock] family_relationship [Harold Strickland]", "to": "#2099", "type": "family_relationship", "width": 0.9126328}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2103", "key": 0, "srcid": "#2103", "tgtid": "#2126", "title": "[Sandra Bullock] family_relationship [Victoria Gonzalez]", "to": "#2126", "type": "family_relationship", "width": 0.8954401}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2103", "key": 0, "srcid": "#2103", "tgtid": "#2127", "title": "[Sandra Bullock] family_relationship [Jennifer Johnson]", "to": "#2127", "type": "family_relationship", "width": 0.91448706}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2103", "key": 0, "srcid": "#2103", "tgtid": "#2128", "title": "[Sandra Bullock] family_relationship [Jeffrey Mills]", "to": "#2128", "type": "family_relationship", "width": 0.93842727}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2103", "key": 0, "srcid": "#2103", "tgtid": "#2129", "title": "[Sandra Bullock] family_relationship [Jason Brown]", "to": "#2129", "type": "family_relationship", "width": 0.9183584}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2103", "key": 0, "srcid": "#2103", "tgtid": "#2100", "title": "[Sandra Bullock] family_relationship [John Hall]", "to": "#2100", "type": "family_relationship", "width": 0.9409487}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2103", "key": 0, "srcid": "#2103", "tgtid": "#2130", "title": "[Sandra Bullock] family_relationship [Jeff Sullivan]", "to": "#2130", "type": "family_relationship", "width": 0.96943474}, {"arrows": "to", "color": "#2ca02c77", "dataset": "MC1", "etid": 2, "from": "#2103", "key": 0, "srcid": "#2103", "tgtid": "#2131", "title": "[Sandra Bullock] membership [6828]", "to": "#2131", "type": "membership", "width": 0.821293}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2103", "key": 0, "srcid": "#2103", "tgtid": "#2132", "title": "[Sandra Bullock] family_relationship [Mr. Eric Logan]", "to": "#2132", "type": "family_relationship", "width": 0.95026064}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2103", "key": 0, "srcid": "#2103", "tgtid": "#2133", "title": "[Sandra Bullock] family_relationship [William Phillips]", "to": "#2133", "type": "family_relationship", "width": 0.95482385}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2103", "key": 0, "srcid": "#2103", "tgtid": "#2134", "title": "[Sandra Bullock] family_relationship [Heather Holmes]", "to": "#2134", "type": "family_relationship", "width": 0.96516323}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2106", "key": 0, "srcid": "#2106", "tgtid": "#2110", "title": "[Mark Garcia] family_relationship [Samuel Dunn]", "to": "#2110", "type": "family_relationship", "width": 0.86437297}, {"arrows": "to", "color": "#2ca02c77", "dataset": "MC1", "etid": 2, "from": "#2106", "key": 0, "srcid": "#2106", "tgtid": "#2131", "title": "[Mark Garcia] membership [6828]", "to": "#2131", "type": "membership", "width": 0.8210813}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2106", "key": 0, "srcid": "#2106", "tgtid": "#2132", "title": "[Mark Garcia] family_relationship [Mr. Eric Logan]", "to": "#2132", "type": "family_relationship", "width": 0.9527456}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2106", "key": 0, "srcid": "#2106", "tgtid": "#2133", "title": "[Mark Garcia] family_relationship [William Phillips]", "to": "#2133", "type": "family_relationship", "width": 0.9519287}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2106", "key": 0, "srcid": "#2106", "tgtid": "#2134", "title": "[Mark Garcia] family_relationship [Heather Holmes]", "to": "#2134", "type": "family_relationship", "width": 0.9647048}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2110", "key": 0, "srcid": "#2110", "tgtid": "#2103", "title": "[Samuel Dunn] family_relationship [Sandra Bullock]", "to": "#2103", "type": "family_relationship", "width": 0.8888858}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2110", "key": 0, "srcid": "#2110", "tgtid": "#2106", "title": "[Samuel Dunn] family_relationship [Mark Garcia]", "to": "#2106", "type": "family_relationship", "width": 0.85331774}, {"arrows": "to", "color": "#2ca02c77", "dataset": "MC1", "etid": 2, "from": "#2110", "key": 0, "srcid": "#2110", "tgtid": "#2131", "title": "[Samuel Dunn] membership [6828]", "to": "#2131", "type": "membership", "width": 0.8005797}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2110", "key": 0, "srcid": "#2110", "tgtid": "#2132", "title": "[Samuel Dunn] family_relationship [Mr. Eric Logan]", "to": "#2132", "type": "family_relationship", "width": 0.94538575}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2110", "key": 0, "srcid": "#2110", "tgtid": "#2133", "title": "[Samuel Dunn] family_relationship [William Phillips]", "to": "#2133", "type": "family_relationship", "width": 0.94412124}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2110", "key": 0, "srcid": "#2110", "tgtid": "#2134", "title": "[Samuel Dunn] family_relationship [Heather Holmes]", "to": "#2134", "type": "family_relationship", "width": 0.95639724}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2126", "key": 0, "srcid": "#2126", "tgtid": "#2127", "title": "[Victoria Gonzalez] family_relationship [Jennifer Johnson]", "to": "#2127", "type": "family_relationship", "width": 0.90788394}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2126", "key": 0, "srcid": "#2126", "tgtid": "#2128", "title": "[Victoria Gonzalez] family_relationship [Jeffrey Mills]", "to": "#2128", "type": "family_relationship", "width": 0.93434185}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2126", "key": 0, "srcid": "#2126", "tgtid": "#2129", "title": "[Victoria Gonzalez] family_relationship [Jason Brown]", "to": "#2129", "type": "family_relationship", "width": 0.91071594}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2126", "key": 0, "srcid": "#2126", "tgtid": "#2100", "title": "[Victoria Gonzalez] family_relationship [John Hall]", "to": "#2100", "type": "family_relationship", "width": 0.93528116}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2126", "key": 0, "srcid": "#2126", "tgtid": "#2130", "title": "[Victoria Gonzalez] family_relationship [Jeff Sullivan]", "to": "#2130", "type": "family_relationship", "width": 0.96776295}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2126", "key": 0, "srcid": "#2126", "tgtid": "#2110", "title": "[Victoria Gonzalez] family_relationship [Samuel Dunn]", "to": "#2110", "type": "family_relationship", "width": 0.8593474}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2126", "key": 0, "srcid": "#2126", "tgtid": "#2106", "title": "[Victoria Gonzalez] family_relationship [Mark Garcia]", "to": "#2106", "type": "family_relationship", "width": 0.8498651}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2126", "key": 0, "srcid": "#2126", "tgtid": "#2132", "title": "[Victoria Gonzalez] family_relationship [Mr. Eric Logan]", "to": "#2132", "type": "family_relationship", "width": 0.94499797}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2126", "key": 0, "srcid": "#2126", "tgtid": "#2133", "title": "[Victoria Gonzalez] family_relationship [William Phillips]", "to": "#2133", "type": "family_relationship", "width": 0.94941074}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2126", "key": 0, "srcid": "#2126", "tgtid": "#2134", "title": "[Victoria Gonzalez] family_relationship [Heather Holmes]", "to": "#2134", "type": "family_relationship", "width": 0.9615451}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2127", "key": 0, "srcid": "#2127", "tgtid": "#2128", "title": "[Jennifer Johnson] family_relationship [Jeffrey Mills]", "to": "#2128", "type": "family_relationship", "width": 0.9459236}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2127", "key": 0, "srcid": "#2127", "tgtid": "#2129", "title": "[Jennifer Johnson] family_relationship [Jason Brown]", "to": "#2129", "type": "family_relationship", "width": 0.92718416}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2127", "key": 0, "srcid": "#2127", "tgtid": "#2100", "title": "[Jennifer Johnson] family_relationship [John Hall]", "to": "#2100", "type": "family_relationship", "width": 0.9467341}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2127", "key": 0, "srcid": "#2127", "tgtid": "#2130", "title": "[Jennifer Johnson] family_relationship [Jeff Sullivan]", "to": "#2130", "type": "family_relationship", "width": 0.9728335}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2127", "key": 0, "srcid": "#2127", "tgtid": "#2110", "title": "[Jennifer Johnson] family_relationship [Samuel Dunn]", "to": "#2110", "type": "family_relationship", "width": 0.8865707}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2127", "key": 0, "srcid": "#2127", "tgtid": "#2106", "title": "[Jennifer Johnson] family_relationship [Mark Garcia]", "to": "#2106", "type": "family_relationship", "width": 0.8772857}, {"arrows": "to", "color": "#2ca02c77", "dataset": "MC1", "etid": 2, "from": "#2127", "key": 0, "srcid": "#2127", "tgtid": "#2131", "title": "[Jennifer Johnson] membership [6828]", "to": "#2131", "type": "membership", "width": 0.8357921}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2127", "key": 0, "srcid": "#2127", "tgtid": "#2132", "title": "[Jennifer Johnson] family_relationship [Mr. Eric Logan]", "to": "#2132", "type": "family_relationship", "width": 0.95604694}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2127", "key": 0, "srcid": "#2127", "tgtid": "#2133", "title": "[Jennifer Johnson] family_relationship [William Phillips]", "to": "#2133", "type": "family_relationship", "width": 0.95693946}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2127", "key": 0, "srcid": "#2127", "tgtid": "#2134", "title": "[Jennifer Johnson] family_relationship [Heather Holmes]", "to": "#2134", "type": "family_relationship", "width": 0.96564305}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2128", "key": 0, "srcid": "#2128", "tgtid": "#2129", "title": "[Jeffrey Mills] family_relationship [Jason Brown]", "to": "#2129", "type": "family_relationship", "width": 0.89924234}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2128", "key": 0, "srcid": "#2128", "tgtid": "#2100", "title": "[Jeffrey Mills] family_relationship [John Hall]", "to": "#2100", "type": "family_relationship", "width": 0.9268368}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2128", "key": 0, "srcid": "#2128", "tgtid": "#2130", "title": "[Jeffrey Mills] family_relationship [Jeff Sullivan]", "to": "#2130", "type": "family_relationship", "width": 0.96287686}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2128", "key": 0, "srcid": "#2128", "tgtid": "#2110", "title": "[Jeffrey Mills] family_relationship [Samuel Dunn]", "to": "#2110", "type": "family_relationship", "width": 0.8488766}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2128", "key": 0, "srcid": "#2128", "tgtid": "#2106", "title": "[Jeffrey Mills] family_relationship [Mark Garcia]", "to": "#2106", "type": "family_relationship", "width": 0.83491963}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2128", "key": 0, "srcid": "#2128", "tgtid": "#2132", "title": "[Jeffrey Mills] family_relationship [Mr. Eric Logan]", "to": "#2132", "type": "family_relationship", "width": 0.9382221}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2128", "key": 0, "srcid": "#2128", "tgtid": "#2133", "title": "[Jeffrey Mills] family_relationship [William Phillips]", "to": "#2133", "type": "family_relationship", "width": 0.9395997}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2128", "key": 0, "srcid": "#2128", "tgtid": "#2134", "title": "[Jeffrey Mills] family_relationship [Heather Holmes]", "to": "#2134", "type": "family_relationship", "width": 0.95253}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2129", "key": 0, "srcid": "#2129", "tgtid": "#2100", "title": "[Jason Brown] family_relationship [John Hall]", "to": "#2100", "type": "family_relationship", "width": 0.9298134}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2129", "key": 0, "srcid": "#2129", "tgtid": "#2130", "title": "[Jason Brown] family_relationship [Jeff Sullivan]", "to": "#2130", "type": "family_relationship", "width": 0.96460253}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2129", "key": 0, "srcid": "#2129", "tgtid": "#2110", "title": "[Jason Brown] family_relationship [Samuel Dunn]", "to": "#2110", "type": "family_relationship", "width": 0.85286343}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2129", "key": 0, "srcid": "#2129", "tgtid": "#2106", "title": "[Jason Brown] family_relationship [Mark Garcia]", "to": "#2106", "type": "family_relationship", "width": 0.8412825}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2129", "key": 0, "srcid": "#2129", "tgtid": "#2132", "title": "[Jason Brown] family_relationship [Mr. Eric Logan]", "to": "#2132", "type": "family_relationship", "width": 0.9393718}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2129", "key": 0, "srcid": "#2129", "tgtid": "#2133", "title": "[Jason Brown] family_relationship [William Phillips]", "to": "#2133", "type": "family_relationship", "width": 0.9433476}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2129", "key": 0, "srcid": "#2129", "tgtid": "#2134", "title": "[Jason Brown] family_relationship [Heather Holmes]", "to": "#2134", "type": "family_relationship", "width": 0.95803684}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2130", "key": 0, "srcid": "#2130", "tgtid": "#2132", "title": "[Jeff Sullivan] family_relationship [Mr. Eric Logan]", "to": "#2132", "type": "family_relationship", "width": 0.9108526}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2130", "key": 0, "srcid": "#2130", "tgtid": "#2133", "title": "[Jeff Sullivan] family_relationship [William Phillips]", "to": "#2133", "type": "family_relationship", "width": 0.9174065}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2130", "key": 0, "srcid": "#2130", "tgtid": "#2134", "title": "[Jeff Sullivan] family_relationship [Heather Holmes]", "to": "#2134", "type": "family_relationship", "width": 0.94062823}, {"arrows": "to", "color": "#2ca02c77", "dataset": "MC1", "etid": 2, "from": "#2131", "key": 0, "srcid": "#2131", "tgtid": "#2132", "title": "[6828] membership [Mr. Eric Logan]", "to": "#2132", "type": "membership", "width": 0.9591509}, {"arrows": "to", "color": "#2ca02c77", "dataset": "MC1", "etid": 2, "from": "#2131", "key": 0, "srcid": "#2131", "tgtid": "#2133", "title": "[6828] membership [William Phillips]", "to": "#2133", "type": "membership", "width": 0.9602904}, {"arrows": "to", "color": "#2ca02c77", "dataset": "MC1", "etid": 2, "from": "#2131", "key": 0, "srcid": "#2131", "tgtid": "#2134", "title": "[6828] membership [Heather Holmes]", "to": "#2134", "type": "membership", "width": 0.9707399}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2132", "key": 0, "srcid": "#2132", "tgtid": "#2133", "title": "[Mr. Eric Logan] family_relationship [William Phillips]", "to": "#2133", "type": "family_relationship", "width": 0.9262567}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2132", "key": 0, "srcid": "#2132", "tgtid": "#2134", "title": "[Mr. Eric Logan] family_relationship [Heather Holmes]", "to": "#2134", "type": "family_relationship", "width": 0.94631815}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#2133", "key": 0, "srcid": "#2133", "tgtid": "#2134", "title": "[William Phillips] family_relationship [Heather Holmes]", "to": "#2134", "type": "family_relationship", "width": 0.9326007}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "repulsion": {
+            "centralGravity": 0.2,
+            "damping": 0.09,
+            "nodeDistance": 100,
+            "springConstant": 0.05,
+            "springLength": 200
+        },
+        "solver": "repulsion",
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

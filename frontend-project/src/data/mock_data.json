@@ -1,0 +1,22 @@
+{
+  "nodes": [
+    { "id": "node1", "comboId": "combo1", "label": "Node 1" },
+    { "id": "123", "comboId": "combo1", "label": "Node 2" },
+    { "id": "node3", "label": "Node 4" }
+  ],
+  "edges": [
+    { "source": "node1", "target": "123",       "type": "ownership",
+    "weight": 0.90013963,
+    "dataset": "MC1",
+    "key": 0 },
+    { "source": "123", "target": "node3" }
+  ],
+  "combos": [
+    {
+      "id": "combo1",
+      "label": "Combo 20000",
+      "padding": [20, 20, 20, 20],
+      "members": ["node1", "123"]
+    }
+  ]
+}

@@ -1,0 +1,163 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 1500px;
+                 height: 1500px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"*": false, "cid": 0, "color": "#0000ff77", "country": "", "dataset": "MC1", "id": "#0373", "label": "[OR] 59", "ntid": 5, "shape": "dot", "size": 3, "type": "organization", "uid": "#0373", "weight": 14.346747420000002}, {"*": false, "cid": 0, "color": "#0000ff77", "country": "", "dataset": "MC1", "id": "#0002", "label": "[OR] 143129355", "ntid": 5, "shape": "dot", "size": 3, "type": "organization", "uid": "#0002", "weight": 15.08955687}, {"*": false, "cid": 3, "color": "#0000ff77", "country": "Brindivaria", "dataset": "MC1", "id": "#1360", "label": "[PE] Ryan Garrett (Brindivaria)", "ntid": 6, "shape": "dot", "size": 3, "type": "person", "uid": "#1360", "weight": 11.2299895}, {"*": false, "cid": 0, "color": "#0000ff77", "country": "", "dataset": "MC1", "id": "#1361", "label": "[OR] 408119", "ntid": 5, "shape": "dot", "size": 3, "type": "organization", "uid": "#1361", "weight": 13.187837860000002}, {"*": false, "cid": 0, "color": "#0000ff77", "country": "", "dataset": "MC1", "id": "#3240", "label": "SMILE", "ntid": 0, "shape": "dot", "size": 3, "type": "", "uid": "#3240", "weight": 14.23491359}, {"*": false, "cid": 24, "color": "#0000ff77", "country": "Country_271835", "dataset": "MC1", "id": "#1362", "label": "[PE] Gary Butler (Country_271835)", "ntid": 6, "shape": "dot", "size": 3, "type": "person", "uid": "#1362", "weight": 11.002340910000001}, {"*": false, "cid": 24, "color": "#0000ff77", "country": "Country_271835", "dataset": "MC1", "id": "#1363", "label": "[PE] Gary Smith (Country_271835)", "ntid": 6, "shape": "dot", "size": 3, "type": "person", "uid": "#1363", "weight": 11.18565538}, {"*": false, "cid": 0, "color": "#0000ff77", "country": "", "dataset": "MC1", "id": "#3155", "label": "\u00e2\u0080\u009cIllegal", "ntid": 0, "shape": "dot", "size": 3, "type": "", "uid": "#3155", "weight": 15.02819604}, {"*": false, "cid": 24, "color": "#0000ff77", "country": "Country_271835", "dataset": "MC1", "id": "#1364", "label": "[PE] Denise Diaz (Country_271835)", "ntid": 6, "shape": "dot", "size": 3, "type": "person", "uid": "#1364", "weight": 11.22856138}, {"*": false, "cid": 0, "color": "#0000ff77", "country": "", "dataset": "MC1", "id": "#1365", "label": "[LO] 6ead18ca-3084-4f8e-9c1e-a5e470fc5935", "ntid": 3, "shape": "dot", "size": 3, "type": "location", "uid": "#1365", "weight": 10.84682356}, {"*": false, "cid": 0, "color": "#0000ff77", "country": "", "dataset": "MC1", "id": "#1366", "label": "[OR] 48259", "ntid": 5, "shape": "dot", "size": 3, "type": "organization", "uid": "#1366", "weight": 11.83064021}, {"*": false, "cid": 0, "color": "#0000ff77", "country": "", "dataset": "MC1", "id": "#3233", "label": "Yu gan BV Investment", "ntid": 0, "shape": "dot", "size": 3, "type": "", "uid": "#3233", "weight": 13.11027448}, {"*": false, "cid": 0, "color": "#0000ff77", "country": "", "dataset": "MC1", "id": "#3324", "label": "Odisha Sea Dry dock LLC Consultants", "ntid": 0, "shape": "dot", "size": 3, "type": "", "uid": "#3324", "weight": 11.63368056}]);
+                  edges = new vis.DataSet([{"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0373", "key": 0, "srcid": "#0373", "tgtid": "#0002", "title": "[59] partnership [143129355]", "to": "#0002", "type": "partnership", "width": 0.9838309}, {"arrows": "to", "color": "#d6272877", "dataset": "MC1", "etid": 3, "from": "#1360", "key": 0, "srcid": "#1360", "tgtid": "#1361", "title": "[Ryan Garrett] ownership [408119]", "to": "#1361", "type": "ownership", "width": 0.91404057}, {"arrows": "to", "color": "#d6272877", "dataset": "MC1", "etid": 3, "from": "#1360", "key": 0, "srcid": "#1360", "tgtid": "#3240", "title": "[Ryan Garrett] ownership [SMILE]", "to": "#3240", "type": "ownership", "width": 0.9307644}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#1360", "key": 0, "srcid": "#1360", "tgtid": "#1362", "title": "[Ryan Garrett] family_relationship [Gary Butler]", "to": "#1362", "type": "family_relationship", "width": 0.94690096}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#1360", "key": 0, "srcid": "#1360", "tgtid": "#1363", "title": "[Ryan Garrett] family_relationship [Gary Smith]", "to": "#1363", "type": "family_relationship", "width": 0.9359115}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1360", "key": 0, "srcid": "#1360", "tgtid": "#3155", "title": "[Ryan Garrett] partnership [\u00e2\u0080\u009cIllegal]", "to": "#3155", "type": "partnership", "width": 0.9844327}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#1360", "key": 0, "srcid": "#1360", "tgtid": "#1364", "title": "[Ryan Garrett] family_relationship [Denise Diaz]", "to": "#1364", "type": "family_relationship", "width": 0.92491907}, {"arrows": "to", "color": "#d6272877", "dataset": "MC1", "etid": 3, "from": "#1360", "key": 0, "srcid": "#1360", "tgtid": "#1365", "title": "[Ryan Garrett] ownership [6ead18ca-3084-4f8e-9c1e-a5e470fc5935]", "to": "#1365", "type": "ownership", "width": 0.90459913}, {"arrows": "to", "color": "#d6272877", "dataset": "MC1", "etid": 3, "from": "#1360", "key": 0, "srcid": "#1360", "tgtid": "#1366", "title": "[Ryan Garrett] ownership [48259]", "to": "#1366", "type": "ownership", "width": 0.9165484}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1360", "key": 0, "srcid": "#1360", "tgtid": "#0373", "title": "[Ryan Garrett] partnership [59]", "to": "#0373", "type": "partnership", "width": 0.9141948}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1360", "key": 0, "srcid": "#1360", "tgtid": "#0002", "title": "[Ryan Garrett] partnership [143129355]", "to": "#0002", "type": "partnership", "width": 0.9642692}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1361", "key": 0, "srcid": "#1361", "tgtid": "#3240", "title": "[408119] partnership [SMILE]", "to": "#3240", "type": "partnership", "width": 0.96537083}, {"arrows": "to", "color": "#d6272877", "dataset": "MC1", "etid": 3, "from": "#1361", "key": 0, "srcid": "#1361", "tgtid": "#1362", "title": "[408119] ownership [Gary Butler]", "to": "#1362", "type": "ownership", "width": 0.97252685}, {"arrows": "to", "color": "#d6272877", "dataset": "MC1", "etid": 3, "from": "#1361", "key": 0, "srcid": "#1361", "tgtid": "#1363", "title": "[408119] ownership [Gary Smith]", "to": "#1363", "type": "ownership", "width": 0.96673167}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1361", "key": 0, "srcid": "#1361", "tgtid": "#3155", "title": "[408119] partnership [\u00e2\u0080\u009cIllegal]", "to": "#3155", "type": "partnership", "width": 0.99198955}, {"arrows": "to", "color": "#d6272877", "dataset": "MC1", "etid": 3, "from": "#1361", "key": 0, "srcid": "#1361", "tgtid": "#1364", "title": "[408119] ownership [Denise Diaz]", "to": "#1364", "type": "ownership", "width": 0.9590113}, {"arrows": "to", "color": "#d6272877", "dataset": "MC1", "etid": 3, "from": "#1361", "key": 0, "srcid": "#1361", "tgtid": "#1365", "title": "[408119] ownership [6ead18ca-3084-4f8e-9c1e-a5e470fc5935]", "to": "#1365", "type": "ownership", "width": 0.94859374}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1361", "key": 0, "srcid": "#1361", "tgtid": "#1366", "title": "[408119] partnership [48259]", "to": "#1366", "type": "partnership", "width": 0.95481074}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1361", "key": 0, "srcid": "#1361", "tgtid": "#0373", "title": "[408119] partnership [59]", "to": "#0373", "type": "partnership", "width": 0.95304555}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1361", "key": 0, "srcid": "#1361", "tgtid": "#0002", "title": "[408119] partnership [143129355]", "to": "#0002", "type": "partnership", "width": 0.98086846}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1362", "key": 0, "srcid": "#1362", "tgtid": "#3155", "title": "[Gary Butler] partnership [\u00e2\u0080\u009cIllegal]", "to": "#3155", "type": "partnership", "width": 0.97336864}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1362", "key": 0, "srcid": "#1362", "tgtid": "#3240", "title": "[Gary Butler] partnership [SMILE]", "to": "#3240", "type": "partnership", "width": 0.90166974}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#1362", "key": 0, "srcid": "#1362", "tgtid": "#1364", "title": "[Gary Butler] family_relationship [Denise Diaz]", "to": "#1364", "type": "family_relationship", "width": 0.8548096}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1362", "key": 0, "srcid": "#1362", "tgtid": "#1365", "title": "[Gary Butler] partnership [6ead18ca-3084-4f8e-9c1e-a5e470fc5935]", "to": "#1365", "type": "partnership", "width": 0.8158911}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1362", "key": 0, "srcid": "#1362", "tgtid": "#1366", "title": "[Gary Butler] partnership [48259]", "to": "#1366", "type": "partnership", "width": 0.8475894}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1362", "key": 0, "srcid": "#1362", "tgtid": "#0373", "title": "[Gary Butler] partnership [59]", "to": "#0373", "type": "partnership", "width": 0.84778595}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1362", "key": 0, "srcid": "#1362", "tgtid": "#0002", "title": "[Gary Butler] partnership [143129355]", "to": "#0002", "type": "partnership", "width": 0.932754}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1363", "key": 0, "srcid": "#1363", "tgtid": "#3155", "title": "[Gary Smith] partnership [\u00e2\u0080\u009cIllegal]", "to": "#3155", "type": "partnership", "width": 0.9807662}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1363", "key": 0, "srcid": "#1363", "tgtid": "#3240", "title": "[Gary Smith] partnership [SMILE]", "to": "#3240", "type": "partnership", "width": 0.9275422}, {"arrows": "to", "color": "#ff7f0e77", "dataset": "MC1", "etid": 1, "from": "#1363", "key": 0, "srcid": "#1363", "tgtid": "#1364", "title": "[Gary Smith] family_relationship [Denise Diaz]", "to": "#1364", "type": "family_relationship", "width": 0.89448905}, {"arrows": "to", "color": "#d6272877", "dataset": "MC1", "etid": 3, "from": "#1363", "key": 0, "srcid": "#1363", "tgtid": "#1365", "title": "[Gary Smith] ownership [6ead18ca-3084-4f8e-9c1e-a5e470fc5935]", "to": "#1365", "type": "ownership", "width": 0.8660391}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1363", "key": 0, "srcid": "#1363", "tgtid": "#1366", "title": "[Gary Smith] partnership [48259]", "to": "#1366", "type": "partnership", "width": 0.8885987}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1363", "key": 0, "srcid": "#1363", "tgtid": "#0373", "title": "[Gary Smith] partnership [59]", "to": "#0373", "type": "partnership", "width": 0.8868313}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1363", "key": 0, "srcid": "#1363", "tgtid": "#0002", "title": "[Gary Smith] partnership [143129355]", "to": "#0002", "type": "partnership", "width": 0.95041156}, {"arrows": "to", "color": "#d6272877", "dataset": "MC1", "etid": 3, "from": "#1364", "key": 0, "srcid": "#1364", "tgtid": "#1365", "title": "[Denise Diaz] ownership [6ead18ca-3084-4f8e-9c1e-a5e470fc5935]", "to": "#1365", "type": "ownership", "width": 0.9331984}, {"arrows": "to", "color": "#d6272877", "dataset": "MC1", "etid": 3, "from": "#1364", "key": 0, "srcid": "#1364", "tgtid": "#1366", "title": "[Denise Diaz] ownership [48259]", "to": "#1366", "type": "ownership", "width": 0.9459009}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1364", "key": 0, "srcid": "#1364", "tgtid": "#0373", "title": "[Denise Diaz] partnership [59]", "to": "#0373", "type": "partnership", "width": 0.9443451}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1364", "key": 0, "srcid": "#1364", "tgtid": "#0002", "title": "[Denise Diaz] partnership [143129355]", "to": "#0002", "type": "partnership", "width": 0.97709846}, {"arrows": "to", "color": "#d6272877", "dataset": "MC1", "etid": 3, "from": "#1365", "key": 0, "srcid": "#1365", "tgtid": "#1366", "title": "[6ead18ca-3084-4f8e-9c1e-a5e470fc5935] ownership [48259]", "to": "#1366", "type": "ownership", "width": 0.85708255}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1365", "key": 0, "srcid": "#1365", "tgtid": "#0373", "title": "[6ead18ca-3084-4f8e-9c1e-a5e470fc5935] partnership [59]", "to": "#0373", "type": "partnership", "width": 0.85585445}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1365", "key": 0, "srcid": "#1365", "tgtid": "#0002", "title": "[6ead18ca-3084-4f8e-9c1e-a5e470fc5935] partnership [143129355]", "to": "#0002", "type": "partnership", "width": 0.9364171}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1366", "key": 0, "srcid": "#1366", "tgtid": "#0373", "title": "[48259] partnership [59]", "to": "#0373", "type": "partnership", "width": 0.96839976}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1366", "key": 0, "srcid": "#1366", "tgtid": "#0002", "title": "[48259] partnership [143129355]", "to": "#0002", "type": "partnership", "width": 0.9866224}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#3155", "key": 0, "srcid": "#3155", "tgtid": "#3240", "title": "[\u00e2\u0080\u009cIllegal] partnership [SMILE]", "to": "#3240", "type": "partnership", "width": 0.94486415}, {"arrows": "to", "color": "#d6272877", "dataset": "MC1", "etid": 3, "from": "#3155", "key": 0, "srcid": "#3155", "tgtid": "#1364", "title": "[\u00e2\u0080\u009cIllegal] ownership [Denise Diaz]", "to": "#1364", "type": "ownership", "width": 0.9273126}, {"arrows": "to", "color": "#d6272877", "dataset": "MC1", "etid": 3, "from": "#3155", "key": 0, "srcid": "#3155", "tgtid": "#1365", "title": "[\u00e2\u0080\u009cIllegal] ownership [6ead18ca-3084-4f8e-9c1e-a5e470fc5935]", "to": "#1365", "type": "ownership", "width": 0.90506583}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#3155", "key": 0, "srcid": "#3155", "tgtid": "#1366", "title": "[\u00e2\u0080\u009cIllegal] partnership [48259]", "to": "#1366", "type": "partnership", "width": 0.92263466}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#3155", "key": 0, "srcid": "#3155", "tgtid": "#0373", "title": "[\u00e2\u0080\u009cIllegal] partnership [59]", "to": "#0373", "type": "partnership", "width": 0.9158789}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#3155", "key": 0, "srcid": "#3155", "tgtid": "#0002", "title": "[\u00e2\u0080\u009cIllegal] partnership [143129355]", "to": "#0002", "type": "partnership", "width": 0.96478325}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#3233", "key": 0, "srcid": "#3233", "tgtid": "#3324", "title": "[Yu gan BV Investment] partnership [Odisha Sea Dry dock LLC Consultants]", "to": "#3324", "type": "partnership", "width": 0.98160917}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#3233", "key": 0, "srcid": "#3233", "tgtid": "#1360", "title": "[Yu gan BV Investment] partnership [Ryan Garrett]", "to": "#1360", "type": "partnership", "width": 0.93782747}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#3233", "key": 0, "srcid": "#3233", "tgtid": "#1361", "title": "[Yu gan BV Investment] partnership [408119]", "to": "#1361", "type": "partnership", "width": 0.9500663}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#3233", "key": 0, "srcid": "#3233", "tgtid": "#3240", "title": "[Yu gan BV Investment] partnership [SMILE]", "to": "#3240", "type": "partnership", "width": 0.9639912}, {"arrows": "to", "color": "#d6272877", "dataset": "MC1", "etid": 3, "from": "#3233", "key": 0, "srcid": "#3233", "tgtid": "#1362", "title": "[Yu gan BV Investment] ownership [Gary Butler]", "to": "#1362", "type": "ownership", "width": 0.97034013}, {"arrows": "to", "color": "#d6272877", "dataset": "MC1", "etid": 3, "from": "#3233", "key": 0, "srcid": "#3233", "tgtid": "#1363", "title": "[Yu gan BV Investment] ownership [Gary Smith]", "to": "#1363", "type": "ownership", "width": 0.96297026}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#3233", "key": 0, "srcid": "#3233", "tgtid": "#3155", "title": "[Yu gan BV Investment] partnership [\u00e2\u0080\u009cIllegal]", "to": "#3155", "type": "partnership", "width": 0.991355}, {"arrows": "to", "color": "#d6272877", "dataset": "MC1", "etid": 3, "from": "#3233", "key": 0, "srcid": "#3233", "tgtid": "#1364", "title": "[Yu gan BV Investment] ownership [Denise Diaz]", "to": "#1364", "type": "ownership", "width": 0.955965}, {"arrows": "to", "color": "#d6272877", "dataset": "MC1", "etid": 3, "from": "#3233", "key": 0, "srcid": "#3233", "tgtid": "#1365", "title": "[Yu gan BV Investment] ownership [6ead18ca-3084-4f8e-9c1e-a5e470fc5935]", "to": "#1365", "type": "ownership", "width": 0.94351786}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#3233", "key": 0, "srcid": "#3233", "tgtid": "#1366", "title": "[Yu gan BV Investment] partnership [48259]", "to": "#1366", "type": "partnership", "width": 0.9523457}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#3233", "key": 0, "srcid": "#3233", "tgtid": "#0373", "title": "[Yu gan BV Investment] partnership [59]", "to": "#0373", "type": "partnership", "width": 0.95020473}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#3233", "key": 0, "srcid": "#3233", "tgtid": "#0002", "title": "[Yu gan BV Investment] partnership [143129355]", "to": "#0002", "type": "partnership", "width": 0.97818166}, {"arrows": "to", "color": "#d6272877", "dataset": "MC1", "etid": 3, "from": "#3240", "key": 0, "srcid": "#3240", "tgtid": "#1362", "title": "[SMILE] ownership [Gary Butler]", "to": "#1362", "type": "ownership", "width": 0.96257764}, {"arrows": "to", "color": "#d6272877", "dataset": "MC1", "etid": 3, "from": "#3240", "key": 0, "srcid": "#3240", "tgtid": "#1363", "title": "[SMILE] ownership [Gary Smith]", "to": "#1363", "type": "ownership", "width": 0.9541238}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#3240", "key": 0, "srcid": "#3240", "tgtid": "#3155", "title": "[SMILE] partnership [\u00e2\u0080\u009cIllegal]", "to": "#3155", "type": "partnership", "width": 0.98946863}, {"arrows": "to", "color": "#d6272877", "dataset": "MC1", "etid": 3, "from": "#3240", "key": 0, "srcid": "#3240", "tgtid": "#1364", "title": "[SMILE] ownership [Denise Diaz]", "to": "#1364", "type": "ownership", "width": 0.9460681}, {"arrows": "to", "color": "#d6272877", "dataset": "MC1", "etid": 3, "from": "#3240", "key": 0, "srcid": "#3240", "tgtid": "#1365", "title": "[SMILE] ownership [6ead18ca-3084-4f8e-9c1e-a5e470fc5935]", "to": "#1365", "type": "ownership", "width": 0.9265109}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#3240", "key": 0, "srcid": "#3240", "tgtid": "#1366", "title": "[SMILE] partnership [48259]", "to": "#1366", "type": "partnership", "width": 0.9401227}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#3240", "key": 0, "srcid": "#3240", "tgtid": "#0373", "title": "[SMILE] partnership [59]", "to": "#0373", "type": "partnership", "width": 0.9371176}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#3240", "key": 0, "srcid": "#3240", "tgtid": "#0002", "title": "[SMILE] partnership [143129355]", "to": "#0002", "type": "partnership", "width": 0.97449446}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#3324", "key": 0, "srcid": "#3324", "tgtid": "#1360", "title": "[Odisha Sea Dry dock LLC Consultants] partnership [Ryan Garrett]", "to": "#1360", "type": "partnership", "width": 0.9555813}, {"arrows": "to", "color": "#d6272877", "dataset": "MC1", "etid": 3, "from": "#3324", "key": 0, "srcid": "#3324", "tgtid": "#1361", "title": "[Odisha Sea Dry dock LLC Consultants] ownership [408119]", "to": "#1361", "type": "ownership", "width": 0.9601161}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#3324", "key": 0, "srcid": "#3324", "tgtid": "#3240", "title": "[Odisha Sea Dry dock LLC Consultants] partnership [SMILE]", "to": "#3240", "type": "partnership", "width": 0.97022724}, {"arrows": "to", "color": "#d6272877", "dataset": "MC1", "etid": 3, "from": "#3324", "key": 0, "srcid": "#3324", "tgtid": "#1362", "title": "[Odisha Sea Dry dock LLC Consultants] ownership [Gary Butler]", "to": "#1362", "type": "ownership", "width": 0.9761269}, {"arrows": "to", "color": "#d6272877", "dataset": "MC1", "etid": 3, "from": "#3324", "key": 0, "srcid": "#3324", "tgtid": "#1363", "title": "[Odisha Sea Dry dock LLC Consultants] ownership [Gary Smith]", "to": "#1363", "type": "ownership", "width": 0.97124004}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#3324", "key": 0, "srcid": "#3324", "tgtid": "#3155", "title": "[Odisha Sea Dry dock LLC Consultants] partnership [\u00e2\u0080\u009cIllegal]", "to": "#3155", "type": "partnership", "width": 0.99226487}, {"arrows": "to", "color": "#d6272877", "dataset": "MC1", "etid": 3, "from": "#3324", "key": 0, "srcid": "#3324", "tgtid": "#1364", "title": "[Odisha Sea Dry dock LLC Consultants] ownership [Denise Diaz]", "to": "#1364", "type": "ownership", "width": 0.9654438}, {"arrows": "to", "color": "#d6272877", "dataset": "MC1", "etid": 3, "from": "#3324", "key": 0, "srcid": "#3324", "tgtid": "#1365", "title": "[Odisha Sea Dry dock LLC Consultants] ownership [6ead18ca-3084-4f8e-9c1e-a5e470fc5935]", "to": "#1365", "type": "ownership", "width": 0.9540534}, {"arrows": "to", "color": "#d6272877", "dataset": "MC1", "etid": 3, "from": "#3324", "key": 0, "srcid": "#3324", "tgtid": "#1366", "title": "[Odisha Sea Dry dock LLC Consultants] ownership [48259]", "to": "#1366", "type": "ownership", "width": 0.9633843}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#3324", "key": 0, "srcid": "#3324", "tgtid": "#0373", "title": "[Odisha Sea Dry dock LLC Consultants] partnership [59]", "to": "#0373", "type": "partnership", "width": 0.96058947}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#3324", "key": 0, "srcid": "#3324", "tgtid": "#0002", "title": "[Odisha Sea Dry dock LLC Consultants] partnership [143129355]", "to": "#0002", "type": "partnership", "width": 0.98304397}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "repulsion": {
+            "centralGravity": 0.2,
+            "damping": 0.09,
+            "nodeDistance": 100,
+            "springConstant": 0.05,
+            "springLength": 200
+        },
+        "solver": "repulsion",
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

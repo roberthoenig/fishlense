@@ -1,0 +1,23 @@
+/* Matrix.css */
+.matrix {
+overflow: auto;
+max-height: 88vh;
+}
+
+.matrix table {
+border-collapse: collapse;
+}
+
+.matrix-cell {
+border: 1px solid #ddd;
+}
+
+.label-cell {
+text-align: center;
+font-weight: bold;
+/* padding: 5px; */
+}
+
+.selected {
+    border: 2px solid orange;
+}

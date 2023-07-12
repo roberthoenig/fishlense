@@ -1,0 +1,163 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 1500px;
+                 height: 1500px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"*": false, "cid": 0, "color": "#0000ff77", "country": "", "dataset": "MC1", "id": "#0805", "label": "[MO] days", "ntid": 4, "shape": "dot", "size": 5, "type": "movement", "uid": "#0805", "weight": 34.74431319}, {"*": false, "cid": 24, "color": "#0000ff77", "country": "Country_271835", "dataset": "MC1", "id": "#1938", "label": "[CO] Benton Ltd. Liability Co (Country_271835)", "ntid": 1, "shape": "dot", "size": 6, "type": "company", "uid": "#1938", "weight": 43.32501999}, {"*": false, "cid": 0, "color": "#0000ff77", "country": "", "dataset": "MC1", "id": "#3236", "label": "sh rn y Corporation", "ntid": 0, "shape": "dot", "size": 4, "type": "", "uid": "#3236", "weight": 22.46221534}, {"*": false, "cid": 0, "color": "#0000ff77", "country": "", "dataset": "MC1", "id": "#1939", "label": "[MO] ninety", "ntid": 4, "shape": "dot", "size": 3, "type": "movement", "uid": "#1939", "weight": 13.77652636}, {"*": false, "cid": 0, "color": "#0000ff77", "country": "", "dataset": "MC1", "id": "#1940", "label": "[EV] 90", "ntid": 2, "shape": "dot", "size": 4, "type": "event", "uid": "#1940", "weight": 16.548398820000003}, {"*": true, "cid": 0, "color": "red", "country": "", "dataset": "MC1", "id": "#0901", "label": "[OR] 979893388", "ntid": 5, "shape": "dot", "size": 13, "type": "organization", "uid": "#0901", "weight": 176.48790785}, {"*": false, "cid": 0, "color": "#0000ff77", "country": "", "dataset": "MC1", "id": "#1941", "label": "[OR] 822596165", "ntid": 5, "shape": "dot", "size": 3, "type": "organization", "uid": "#1941", "weight": 9.48469404}, {"*": false, "cid": 0, "color": "#0000ff77", "country": "", "dataset": "MC1", "id": "#1942", "label": "[OR] 5421", "ntid": 5, "shape": "dot", "size": 4, "type": "organization", "uid": "#1942", "weight": 16.01375051}, {"*": false, "cid": 0, "color": "#0000ff77", "country": "", "dataset": "MC1", "id": "#1087", "label": "[OR] 2913", "ntid": 5, "shape": "dot", "size": 3, "type": "organization", "uid": "#1087", "weight": 12.908704929999999}, {"*": false, "cid": 24, "color": "#0000ff77", "country": "Country_271835", "dataset": "MC1", "id": "#1943", "label": "[CO] Pez Dorado BV Logistics (Country_271835)", "ntid": 1, "shape": "dot", "size": 3, "type": "company", "uid": "#1943", "weight": 10.38874328}]);
+                  edges = new vis.DataSet([{"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0805", "key": 0, "srcid": "#0805", "tgtid": "#1938", "title": "[days] partnership [Benton Ltd. Liability Co]", "to": "#1938", "type": "partnership", "width": 0.9852305}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0805", "key": 0, "srcid": "#0805", "tgtid": "#3236", "title": "[days] partnership [sh rn y Corporation]", "to": "#3236", "type": "partnership", "width": 0.95343107}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0805", "key": 0, "srcid": "#0805", "tgtid": "#1939", "title": "[days] partnership [ninety]", "to": "#1939", "type": "partnership", "width": 0.9219639}, {"arrows": "to", "color": "#2ca02c77", "dataset": "MC1", "etid": 2, "from": "#0805", "key": 0, "srcid": "#0805", "tgtid": "#1940", "title": "[days] membership [90]", "to": "#1940", "type": "membership", "width": 0.9210208}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0901", "key": 0, "srcid": "#0901", "tgtid": "#1938", "title": "[979893388] partnership [Benton Ltd. Liability Co]", "to": "#1938", "type": "partnership", "width": 0.92848116}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0901", "key": 0, "srcid": "#0901", "tgtid": "#1939", "title": "[979893388] partnership [ninety]", "to": "#1939", "type": "partnership", "width": 0.85535985}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0901", "key": 0, "srcid": "#0901", "tgtid": "#1940", "title": "[979893388] partnership [90]", "to": "#1940", "type": "partnership", "width": 0.89930433}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0901", "key": 0, "srcid": "#0901", "tgtid": "#0805", "title": "[979893388] partnership [days]", "to": "#0805", "type": "partnership", "width": 0.9455313}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0901", "key": 0, "srcid": "#0901", "tgtid": "#3236", "title": "[979893388] partnership [sh rn y Corporation]", "to": "#3236", "type": "partnership", "width": 0.8221979}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0901", "key": 0, "srcid": "#0901", "tgtid": "#1941", "title": "[979893388] partnership [822596165]", "to": "#1941", "type": "partnership", "width": 0.933341}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0901", "key": 0, "srcid": "#0901", "tgtid": "#1942", "title": "[979893388] partnership [5421]", "to": "#1942", "type": "partnership", "width": 0.9693028}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0901", "key": 0, "srcid": "#0901", "tgtid": "#1087", "title": "[979893388] partnership [2913]", "to": "#1087", "type": "partnership", "width": 0.8672797}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#0901", "key": 0, "srcid": "#0901", "tgtid": "#1943", "title": "[979893388] partnership [Pez Dorado BV Logistics]", "to": "#1943", "type": "partnership", "width": 0.9098652}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1087", "key": 0, "srcid": "#1087", "tgtid": "#1943", "title": "[2913] partnership [Pez Dorado BV Logistics]", "to": "#1943", "type": "partnership", "width": 0.943442}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1087", "key": 0, "srcid": "#1087", "tgtid": "#1942", "title": "[2913] partnership [5421]", "to": "#1942", "type": "partnership", "width": 0.92230123}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1087", "key": 0, "srcid": "#1087", "tgtid": "#1938", "title": "[2913] partnership [Benton Ltd. Liability Co]", "to": "#1938", "type": "partnership", "width": 0.9828431}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1087", "key": 0, "srcid": "#1087", "tgtid": "#1939", "title": "[2913] partnership [ninety]", "to": "#1939", "type": "partnership", "width": 0.94197375}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1087", "key": 0, "srcid": "#1087", "tgtid": "#1940", "title": "[2913] partnership [90]", "to": "#1940", "type": "partnership", "width": 0.95874375}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1087", "key": 0, "srcid": "#1087", "tgtid": "#0805", "title": "[2913] partnership [days]", "to": "#0805", "type": "partnership", "width": 0.98056096}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1087", "key": 0, "srcid": "#1087", "tgtid": "#3236", "title": "[2913] partnership [sh rn y Corporation]", "to": "#3236", "type": "partnership", "width": 0.9398533}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1938", "key": 0, "srcid": "#1938", "tgtid": "#1939", "title": "[Benton Ltd. Liability Co] partnership [ninety]", "to": "#1939", "type": "partnership", "width": 0.91289675}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1938", "key": 0, "srcid": "#1938", "tgtid": "#1940", "title": "[Benton Ltd. Liability Co] partnership [90]", "to": "#1940", "type": "partnership", "width": 0.93791586}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1938", "key": 0, "srcid": "#1938", "tgtid": "#0805", "title": "[Benton Ltd. Liability Co] partnership [days]", "to": "#0805", "type": "partnership", "width": 0.96721566}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1938", "key": 0, "srcid": "#1938", "tgtid": "#3236", "title": "[Benton Ltd. Liability Co] partnership [sh rn y Corporation]", "to": "#3236", "type": "partnership", "width": 0.9181214}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1938", "key": 0, "srcid": "#1938", "tgtid": "#1941", "title": "[Benton Ltd. Liability Co] partnership [822596165]", "to": "#1941", "type": "partnership", "width": 0.94478977}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1938", "key": 0, "srcid": "#1938", "tgtid": "#1942", "title": "[Benton Ltd. Liability Co] partnership [5421]", "to": "#1942", "type": "partnership", "width": 0.97492415}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1938", "key": 0, "srcid": "#1938", "tgtid": "#1087", "title": "[Benton Ltd. Liability Co] partnership [2913]", "to": "#1087", "type": "partnership", "width": 0.88200015}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1938", "key": 0, "srcid": "#1938", "tgtid": "#1943", "title": "[Benton Ltd. Liability Co] partnership [Pez Dorado BV Logistics]", "to": "#1943", "type": "partnership", "width": 0.9239782}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1939", "key": 0, "srcid": "#1939", "tgtid": "#1940", "title": "[ninety] partnership [90]", "to": "#1940", "type": "partnership", "width": 0.91042304}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1939", "key": 0, "srcid": "#1939", "tgtid": "#0805", "title": "[ninety] partnership [days]", "to": "#0805", "type": "partnership", "width": 0.9542803}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1939", "key": 0, "srcid": "#1939", "tgtid": "#1938", "title": "[ninety] partnership [Benton Ltd. Liability Co]", "to": "#1938", "type": "partnership", "width": 0.95841646}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1939", "key": 0, "srcid": "#1939", "tgtid": "#3236", "title": "[ninety] partnership [sh rn y Corporation]", "to": "#3236", "type": "partnership", "width": 0.8811708}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1940", "key": 0, "srcid": "#1940", "tgtid": "#0805", "title": "[90] partnership [days]", "to": "#0805", "type": "partnership", "width": 0.9497028}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1940", "key": 0, "srcid": "#1940", "tgtid": "#1938", "title": "[90] partnership [Benton Ltd. Liability Co]", "to": "#1938", "type": "partnership", "width": 0.9565653}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1940", "key": 0, "srcid": "#1940", "tgtid": "#3236", "title": "[90] partnership [sh rn y Corporation]", "to": "#3236", "type": "partnership", "width": 0.8696707}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1941", "key": 0, "srcid": "#1941", "tgtid": "#1942", "title": "[822596165] partnership [5421]", "to": "#1942", "type": "partnership", "width": 0.97909915}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1941", "key": 0, "srcid": "#1941", "tgtid": "#1087", "title": "[822596165] partnership [2913]", "to": "#1087", "type": "partnership", "width": 0.90333486}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1941", "key": 0, "srcid": "#1941", "tgtid": "#1943", "title": "[822596165] partnership [Pez Dorado BV Logistics]", "to": "#1943", "type": "partnership", "width": 0.93883806}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1941", "key": 0, "srcid": "#1941", "tgtid": "#1938", "title": "[822596165] partnership [Benton Ltd. Liability Co]", "to": "#1938", "type": "partnership", "width": 0.98155725}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1941", "key": 0, "srcid": "#1941", "tgtid": "#1939", "title": "[822596165] partnership [ninety]", "to": "#1939", "type": "partnership", "width": 0.9367624}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1941", "key": 0, "srcid": "#1941", "tgtid": "#1940", "title": "[822596165] partnership [90]", "to": "#1940", "type": "partnership", "width": 0.95575774}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1941", "key": 0, "srcid": "#1941", "tgtid": "#0805", "title": "[822596165] partnership [days]", "to": "#0805", "type": "partnership", "width": 0.97724926}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1941", "key": 0, "srcid": "#1941", "tgtid": "#3236", "title": "[822596165] partnership [sh rn y Corporation]", "to": "#3236", "type": "partnership", "width": 0.93396455}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1942", "key": 0, "srcid": "#1942", "tgtid": "#1087", "title": "[5421] partnership [2913]", "to": "#1087", "type": "partnership", "width": 0.9182464}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1942", "key": 0, "srcid": "#1942", "tgtid": "#1943", "title": "[5421] partnership [Pez Dorado BV Logistics]", "to": "#1943", "type": "partnership", "width": 0.9495356}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1942", "key": 0, "srcid": "#1942", "tgtid": "#1938", "title": "[5421] partnership [Benton Ltd. Liability Co]", "to": "#1938", "type": "partnership", "width": 0.9829859}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1942", "key": 0, "srcid": "#1942", "tgtid": "#1939", "title": "[5421] partnership [ninety]", "to": "#1939", "type": "partnership", "width": 0.94385964}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1942", "key": 0, "srcid": "#1942", "tgtid": "#1940", "title": "[5421] partnership [90]", "to": "#1940", "type": "partnership", "width": 0.96406144}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1942", "key": 0, "srcid": "#1942", "tgtid": "#0805", "title": "[5421] partnership [days]", "to": "#0805", "type": "partnership", "width": 0.9821551}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1942", "key": 0, "srcid": "#1942", "tgtid": "#3236", "title": "[5421] partnership [sh rn y Corporation]", "to": "#3236", "type": "partnership", "width": 0.9415083}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1943", "key": 0, "srcid": "#1943", "tgtid": "#1942", "title": "[Pez Dorado BV Logistics] partnership [5421]", "to": "#1942", "type": "partnership", "width": 0.92447156}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1943", "key": 0, "srcid": "#1943", "tgtid": "#1938", "title": "[Pez Dorado BV Logistics] partnership [Benton Ltd. Liability Co]", "to": "#1938", "type": "partnership", "width": 0.98203367}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1943", "key": 0, "srcid": "#1943", "tgtid": "#1939", "title": "[Pez Dorado BV Logistics] partnership [ninety]", "to": "#1939", "type": "partnership", "width": 0.94026333}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1943", "key": 0, "srcid": "#1943", "tgtid": "#1940", "title": "[Pez Dorado BV Logistics] partnership [90]", "to": "#1940", "type": "partnership", "width": 0.9583388}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1943", "key": 0, "srcid": "#1943", "tgtid": "#0805", "title": "[Pez Dorado BV Logistics] partnership [days]", "to": "#0805", "type": "partnership", "width": 0.9802084}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#1943", "key": 0, "srcid": "#1943", "tgtid": "#3236", "title": "[Pez Dorado BV Logistics] partnership [sh rn y Corporation]", "to": "#3236", "type": "partnership", "width": 0.93776846}, {"arrows": "to", "color": "#9467bd77", "dataset": "MC1", "etid": 4, "from": "#3236", "key": 0, "srcid": "#3236", "tgtid": "#1938", "title": "[sh rn y Corporation] partnership [Benton Ltd. Liability Co]", "to": "#1938", "type": "partnership", "width": 0.95837843}, {"arrows": "to", "color": "#2ca02c77", "dataset": "MC1", "etid": 2, "from": "#3236", "key": 0, "srcid": "#3236", "tgtid": "#1939", "title": "[sh rn y Corporation] membership [ninety]", "to": "#1939", "type": "membership", "width": 0.9053972}, {"arrows": "to", "color": "#2ca02c77", "dataset": "MC1", "etid": 2, "from": "#3236", "key": 0, "srcid": "#3236", "tgtid": "#1940", "title": "[sh rn y Corporation] membership [90]", "to": "#1940", "type": "membership", "width": 0.92607874}, {"arrows": "to", "color": "#2ca02c77", "dataset": "MC1", "etid": 2, "from": "#3236", "key": 0, "srcid": "#3236", "tgtid": "#0805", "title": "[sh rn y Corporation] membership [days]", "to": "#0805", "type": "membership", "width": 0.96113175}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "repulsion": {
+            "centralGravity": 0.2,
+            "damping": 0.09,
+            "nodeDistance": 100,
+            "springConstant": 0.05,
+            "springLength": 200
+        },
+        "solver": "repulsion",
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

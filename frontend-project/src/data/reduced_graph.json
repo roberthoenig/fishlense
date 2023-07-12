@@ -1,0 +1,50 @@
+{
+    "directed": true,
+    "multigraph": true,
+    "graph": {},
+    "nodes": [
+      {
+        "dataset": "MC1",
+        "id": "Sikkim S.A. de C.V."
+      },
+      {
+        "type": "person",
+        "dataset": "MC1",
+        "country": "Oceanus",
+        "id": "Amanda Mckenzie"
+      },
+      {
+        "dataset": "MC1",
+        "id": "Turkish Mussels Ltd. Liability Co Marine biology"
+      },
+      {
+        "type": "organization",
+        "dataset": "MC1",
+        "id": "5"
+      },
+      {
+        "type": "organization",
+        "dataset": "MC1",
+        "id": "903311212"
+      }
+    ],
+    "edges": [
+      {
+        "type": "membership",
+        "weight": 0.9471978,
+        "dataset": "MC1",
+        "source": "5",
+        "target": "903311212",
+        "key": 0
+      },
+
+      {
+        "type": "membership",
+        "weight": 0.9287137,
+        "dataset": "MC1",
+        "source": "Turkish Mussels Ltd. Liability Co Marine biology",
+        "target": "Amanda Mckenzie",
+        "key": 0
+      }
+    ]
+  }
