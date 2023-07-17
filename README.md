@@ -8,6 +8,7 @@ _Caveat: The demo takes a couple seconds to load. Also, it does not show the ove
 
 ## Team Members
 * Robert Hönig
+* Jiale Chen
 
 ## Requirements
 
